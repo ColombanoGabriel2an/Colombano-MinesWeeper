@@ -1,0 +1,79 @@
+ <!DOCTYPE html>
+ <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Minesweepers</title>
+    </head>
+    <body>
+        <style>
+            *{
+                transition: all 1s;
+                box-sizing: border-box; /* da borde a la celda sin afectar el tamaño de la celda*/
+             }
+
+            body{
+                font-family: calibri;
+                margin: 0;
+                padding: 0;
+                user-select: none; /*no se pueden modificar */
+                background: lightsteelblue;
+            }
+
+            table{
+                background: slategray;
+                margin: auto;
+            }
+
+            td{
+                border: rgba(0, 0, 0, 0.25) 1px solid;
+            }
+        </style>
+
+        <!-- HTML (Estructura)--> 
+        
+        <table cellspacing=0 cellpadding=0 id="tablero">
+            <tr>
+                <td>A</td>
+                <td>B</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>D</td>
+            </tr>
+        </table>
+        
+        <!-- JS (logica) -->
+        <script>
+            
+            let filas = 20 
+            let columnas = 20
+            let lado = 30
+
+            let tablero = []
+
+            nuevoJuego()
+
+            function nuevoJuego(){
+                generarTableroHTML()
+             }
+
+            function generarTableroHTML(){
+                
+                let html = ""
+                for (let f = o; f < filas; f++) {
+                    html += '<tr>'
+                    for (let c = 0; c < columnas; c++) {
+                        html += '<td style="width:${lado}px;height:${lado}px">'
+                        html += '</td>'
+                    }
+                    html += '</tr>'
+                }
+                let tableroHTML = document.getElementById("tablero")
+                tableroHTML.innerHTML = html
+                tableroHTML.style.width = columnas*lado+"px"
+                tableroHTML.style.height = filas*lado+"px"
+            } 
+
+        </script>
+    </body>
+ </html>

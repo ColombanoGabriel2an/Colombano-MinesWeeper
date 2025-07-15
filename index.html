@@ -1,79 +1,37 @@
- <!DOCTYPE html>
- <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Minesweepers</title>
-    </head>
-    <body>
-        <style>
-            *{
-                transition: all 1s;
-                box-sizing: border-box; /* da borde a la celda sin afectar el tamaño de la celda*/
-             }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MinesWeeper</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<header class="encabezado">
+		<h1 class="titulo-principal">MinesWeeper</h1>
+	</header>
 
-            body{
-                font-family: calibri;
-                margin: 0;
-                padding: 0;
-                user-select: none; /*no se pueden modificar */
-                background: lightsteelblue;
-            }
+	<main class="contenedor-juego">
+		<!-- Formulario de carga de datos del jugador-->
+		<section class="seccion-jugador">
+			<label for="nombreJugador">Nombre del jugador:</label>
+			<input type="text" id="nombreJugador" name="nombreJugador" maxlength="15" minlength="3" required>
+			<button id="btnIniciar">Iniciar partida</button>
+		</section>
 
-            table{
-                background: slategray;
-                margin: auto;
-            }
+		<!-- Información del juego -->
+		<section class="informacion-juego">
+			<div id="minasRestantes">Minas: 10</div>
+			<button id="btnReiniciar" title="Reiniciar partida">😊</button>
+			<div id="temporizador">00:00</div>
+		</section>
 
-            td{
-                border: rgba(0, 0, 0, 0.25) 1px solid;
-            }
-        </style>
+		<!-- Tablero del juego -->
+		<section id="tablero" class="tablero-juego">
+			<!-- Se genera dinámicamente con JavaScript -->
+		</section>
+	</main>
 
-        <!-- HTML (Estructura)--> 
-        
-        <table cellspacing=0 cellpadding=0 id="tablero">
-            <tr>
-                <td>A</td>
-                <td>B</td>
-            </tr>
-            <tr>
-                <td>C</td>
-                <td>D</td>
-            </tr>
-        </table>
-        
-        <!-- JS (logica) -->
-        <script>
-            
-            let filas = 20 
-            let columnas = 20
-            let lado = 30
-
-            let tablero = []
-
-            nuevoJuego()
-
-            function nuevoJuego(){
-                generarTableroHTML()
-             }
-
-            function generarTableroHTML(){
-                
-                let html = ""
-                for (let f = o; f < filas; f++) {
-                    html += '<tr>'
-                    for (let c = 0; c < columnas; c++) {
-                        html += '<td style="width:${lado}px;height:${lado}px">'
-                        html += '</td>'
-                    }
-                    html += '</tr>'
-                }
-                let tableroHTML = document.getElementById("tablero")
-                tableroHTML.innerHTML = html
-                tableroHTML.style.width = columnas*lado+"px"
-                tableroHTML.style.height = filas*lado+"px"
-            } 
-
-        </script>
-    </body>
- </html>
+	<script src="js/main.js"></script>
+</body>
+</html>

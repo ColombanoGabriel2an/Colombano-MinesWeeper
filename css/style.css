@@ -78,3 +78,16 @@ body {
 	display: grid;
 	margin-top: 20px;
 }
+
+/* Estilo inicial para cada celda del tablero */
+.celda {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #999999;
+	background-color: #d6d6d6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	user-select: none;
+}

@@ -91,3 +91,9 @@ body {
 	font-weight: bold;
 	user-select: none;
 }
+
+.revelada {
+	background-color: #e0e0e0;
+	border: 1px solid #bbbbbb;
+}
+

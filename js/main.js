@@ -1,53 +1,52 @@
 'use strict';
 
-var filas = 8;
-var columnas = 8;
-var totalMinas = 10;
+	var filas = 8;
+	var columnas = 8;
+	var totalMinas = 10;
 
-var tableroElemento = document.getElementById('tablero');
-var botonIniciar = document.getElementById('btnIniciar');
+	var tableroElemento = document.getElementById('tablero');
+	var botonIniciar = document.getElementById('btnIniciar');
 
-var tablero = [];
-var celdasRestantes = filas * columnas - totalMinas;
+	var tablero = [];
+	var celdasRestantes = filas * columnas - totalMinas;
 
-var cronometro;
-var tiempoInicio;
-var temporizadorElemento = document.getElementById('temporizador');
-var reiniciarBtn = document.getElementById('btnReiniciar');
-var primerClick = true;
+	var cronometro;
+	var tiempoInicio;
+	var temporizadorElemento = document.getElementById('temporizador');
+	var reiniciarBtn = document.getElementById('btnReiniciar');
+	var primerClick = true;
 
 var btnTema = document.getElementById('btnTema');
 
-var contadorMinasElemento = document.getElementById('minasRestantes');
-var banderasColocadas = 0;
+	var contadorMinasElemento = document.getElementById('minasRestantes');
+	var banderasColocadas = 0;
 
-var btnRanking = document.getElementById('btnRanking');
-var modalRanking = document.getElementById('modalRanking');
-var contenidoRanking = document.getElementById('contenidoRanking');
-var btnFecha = document.getElementById('ordenarPorFecha');
-var btnTiempo = document.getElementById('ordenarPorTiempo');
 
 botonIniciar.addEventListener('click', iniciarJuego);
 
 function iniciarJuego() {
 	
 	var nombre = document.getElementById('nombreJugador').value.trim();
+	var errorNombre = document.getElementById('errorNombre');
 
 	// Validación de nombre (mínimo 3 letras)
 	if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]{3,}$/.test(nombre)) {
-		alert('Por favor, ingresá un nombre de letras solamente (mínimo 3).');
+		errorNombre.textContent = 'El nombre solo puede contener letras, y como mínimo 3';
 		return;
+	} else {
+		errorNombre.textContent = '';
 	}
 
 	tableroElemento.innerHTML = '';
 	tablero = [];
 	celdasRestantes = filas * columnas - totalMinas;
 	temporizadorElemento.textContent = '00:00';
-	detenerCronometro();
 	primerClick = true;
 
 	banderasColocadas = 0;
 	contadorMinasElemento.textContent = 'Minas: ' + totalMinas;
+
+	detenerCronometro();
 
 	tableroElemento.style.gridTemplateColumns = 'repeat(' + columnas + ', 1fr)';
 
@@ -225,12 +224,13 @@ function finalizarJuego(gano) {
 	}
 
 	if (gano) {
-		alert('¡Felicidades! Ganaste la partida.');
+		mostrarModalEstado('¡Felicidades! Ganaste la partida.');
 		guardarPartida();
 	} else {
-		alert('Perdiste. Hiciste clic en una mina.');
+		mostrarModalEstado('Perdiste. Hiciste clic en una mina.');
 	}
 }
+
 
 reiniciarBtn.addEventListener('click', iniciarJuego);
 
@@ -268,65 +268,4 @@ btnTema.addEventListener('click', function () {
 	}
 });
 
-function guardarPartida() {
-	var nombre = document.getElementById('nombreJugador').value.trim();
-	if (nombre.length < 3) return; // No guarda si el nombre no es válido
-
-	var tiempoFinal = temporizadorElemento.textContent;
-	var fecha = new Date();
-	var fechaFormateada = fecha.toLocaleString('es-AR');
-
-	var nuevaPartida = {
-		nombre: nombre,
-		tiempo: tiempoFinal,
-		timestamp: Date.now(),
-		fecha: fechaFormateada
-	};
-
-	var partidasGuardadas = JSON.parse(localStorage.getItem('rankingBuscaminas')) || [];
-	partidasGuardadas.push(nuevaPartida);
-	localStorage.setItem('rankingBuscaminas', JSON.stringify(partidasGuardadas));
-}
-
-btnRanking.addEventListener('click', function () {
-	mostrarRanking('tiempo');
-	});
-
-btnFecha.addEventListener('click', function () {
-	mostrarRanking('fecha');
-	});
-
-btnTiempo.addEventListener('click', function () {
-	mostrarRanking('tiempo');
-	});
-
-function mostrarRanking(criterio) {
-	var partidas = JSON.parse(localStorage.getItem('rankingBuscaminas')) || [];
-
-	if (criterio === 'tiempo') {
-		partidas.sort((a, b) => convertirTiempo(a.tiempo) - convertirTiempo(b.tiempo));
-	} else if (criterio === 'fecha') {
-		partidas.sort((a, b) => b.timestamp - a.timestamp);
-	}
-
-	var html = '<ul>';
-	partidas.forEach(p => {
-		html += `<li><strong>${p.nombre}</strong> – ${p.tiempo} (${p.fecha})</li>`;
-	});
-	html += '</ul>';
-
-	contenidoRanking.innerHTML = html;
-	modalRanking.classList.remove('oculto');
-}
-
-function cerrarRanking() {
-	modalRanking.classList.add('oculto');
-}
-
-function convertirTiempo(tiempoStr) {
-	var partes = tiempoStr.split(':');
-	var minutos = parseInt(partes[0]);
-	var segundos = parseInt(partes[1]);
-	return minutos * 60 + segundos;
-}
 

@@ -37,20 +37,40 @@
 		
 		<!-- Ranking -->
 		<button id="btnRanking">📊 Ver ranking</button>
-			<div id="modalRanking" class="modal oculto">
-				<div class="contenido-modal">
-					<h3>Ranking de Partidas</h3>
-					<div id="contenidoRanking"></div>
-					<div class="opciones-ranking">
-						<button id="ordenarPorFecha">📅 Ordenar por fecha</button>
-						<button id="ordenarPorTiempo">⏱️ Ordenar por tiempo</button>
-						<button onclick="cerrarRanking()">❌ Cerrar</button>
-					</div>
-				</div>
-			</div>
 
+		<!-- Dificultad -->
+		<select id="selectorDificultad">
+			<option value="facil">Fácil (8x8, 10 minas)</option>
+			<option value="medio">Medio (12x12, 25 minas)</option>
+			<option value="dificil">Difícil (16x16, 40 minas)</option>
+		</select>
+		
 	</main>
 
+	<!-- Modal del ranking -->
+	<div id="modalRanking" class="modal oculto">
+		<div class="contenido-modal">
+			<h3>Ranking de Partidas</h3>
+			<div id="contenidoRanking"></div> <!-- ← ESTE ES EL QUE FALTABA -->
+			<div class="opciones-ranking">
+				<button id="ordenarPorFecha">📅 Ordenar por fecha</button>
+				<button id="ordenarPorTiempo">⏱️ Ordenar por tiempo</button>
+				<button onclick="cerrarRanking()">❌ Cerrar</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal de estado del juego -->
+	<div id="modalEstado" class="modal oculto">
+		<div class="contenido-modal">
+			<h3 id="mensajeEstado"></h3>
+			<button onclick="cerrarModalEstado()">Aceptar</button>
+		</div>
+	</div>
+	
+	<script src="js/ranking.js"></script>
+	<script src="js/modal.js"></script>
+	<script src="js/dificultad.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>

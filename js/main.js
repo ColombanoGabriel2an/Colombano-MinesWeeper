@@ -21,9 +21,21 @@ var btnTema = document.getElementById('btnTema');
 var contadorMinasElemento = document.getElementById('minasRestantes');
 var banderasColocadas = 0;
 
+var btnRanking = document.getElementById('btnRanking');
+var modalRanking = document.getElementById('modalRanking');
+
 botonIniciar.addEventListener('click', iniciarJuego);
 
 function iniciarJuego() {
+	
+	var nombre = document.getElementById('nombreJugador').value.trim();
+
+	// Validación de nombre (mínimo 3 letras)
+	if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]{3,}$/.test(nombre)) {
+		alert('Por favor, ingresá un nombre válido (mínimo 3 letras).');
+		return;
+	}
+	
 	tableroElemento.innerHTML = '';
 	tablero = [];
 	celdasRestantes = filas * columnas - totalMinas;
@@ -163,7 +175,40 @@ function revelarCelda(f, c) {
 		finalizarJuego(true);
 	}
 }
+
+function expansionRecursiva(f, c) {
+	for (var df = -1; df <= 1; df++) {
+		for (var dc = -1; dc <= 1; dc++) {
+			var nf = f + df;
+			var nc = c + dc;
+
+			if (
+				nf >= 0 &&
+				nf < filas &&
+				nc >= 0 &&
+				nc < columnas &&
+				!(df === 0 && dc === 0)
+			) {
+				var celdaVecina = tablero[nf][nc];
+				if (!celdaVecina.revelada && !celdaVecina.mina && !celdaVecina.bandera) {
+					celdaVecina.revelada = true;
+					celdaVecina.elemento.classList.add('revelada');
+					celdasRestantes--;
+
+					if (celdaVecina.numero > 0) {
+						celdaVecina.elemento.textContent = celdaVecina.numero;
+					} else {
+						expansionRecursiva(nf, nc);
+					}
+				}
+			}
+		}
+	}
+}
+
 function finalizarJuego(gano) {
+	detenerCronometro();
+
 	for (var f = 0; f < filas; f++) {
 		for (var c = 0; c < columnas; c++) {
 			var celda = tablero[f][c];
@@ -178,6 +223,7 @@ function finalizarJuego(gano) {
 
 	if (gano) {
 		alert('¡Felicidades! Ganaste la partida.');
+		guardarPartida();
 	} else {
 		alert('Perdiste. Hiciste clic en una mina.');
 	}
@@ -218,3 +264,51 @@ btnTema.addEventListener('click', function () {
 		btnTema.textContent = '🌙 Modo oscuro';
 	}
 });
+
+function guardarPartida() {
+	var nombre = document.getElementById('nombreJugador').value.trim();
+	if (nombre.length < 3) return; // No guarda si el nombre no es válido
+
+	var tiempoFinal = temporizadorElemento.textContent;
+	var fecha = new Date();
+	var fechaFormateada = fecha.toLocaleString('es-AR');
+
+	var nuevaPartida = {
+		nombre: nombre,
+		tiempo: tiempoFinal,
+		timestamp: Date.now(),
+		fecha: fechaFormateada
+	};
+
+	var partidasGuardadas = JSON.parse(localStorage.getItem('rankingBuscaminas')) || [];
+	partidasGuardadas.push(nuevaPartida);
+	localStorage.setItem('rankingBuscaminas', JSON.stringify(partidasGuardadas));
+}
+
+btnRanking.addEventListener('click', function () {
+	var partidas = JSON.parse(localStorage.getItem('rankingBuscaminas')) || [];
+
+	if (partidas.length === 0) {
+		modalRanking.innerHTML = '<p>No hay partidas guardadas aún.</p>';
+		modalRanking.classList.add('modal-visible');
+		return;
+	}
+
+	// Orden por tiempo (ascendente)
+	partidas.sort(function (a, b) {
+		return a.timestamp - b.timestamp;
+	});
+
+	var html = '<h3>Ranking de Partidas</h3><ul>';
+	partidas.forEach(function (p) {
+		html += `<li><strong>${p.nombre}</strong> - ${p.tiempo} (${p.fecha})</li>`;
+	});
+	html += '</ul><button onclick="cerrarRanking()">Cerrar</button>';
+
+	modalRanking.innerHTML = html;
+	modalRanking.classList.add('modal-visible');
+});
+
+function cerrarRanking() {
+	modalRanking.classList.remove('modal-visible');
+}

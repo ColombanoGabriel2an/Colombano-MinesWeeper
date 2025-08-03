@@ -16,6 +16,7 @@
 		<section class="seccion-jugador">
 			<label for="nombreJugador">Nombre del jugador:</label>
 			<input type="text" id="nombreJugador" name="nombreJugador" maxlength="15" minlength="3" required>
+			<small id="errorNombre" class="mensaje-error"></small>
 			<button id="btnIniciar">Iniciar partida</button>
 		</section>
 
@@ -33,6 +34,11 @@
 		
 		<!-- Modo oscuro -->
 		<button id="btnTema">Modo oscuro</button>
+		
+		<!-- Ranking -->
+		<button id="btnRanking">📊 Ver ranking</button>
+		<div id="modalRanking" class="modal-oculto"></div>
+
 	</main>
 
 	<script src="js/main.js"></script>

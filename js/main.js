@@ -23,6 +23,9 @@ var banderasColocadas = 0;
 
 var btnRanking = document.getElementById('btnRanking');
 var modalRanking = document.getElementById('modalRanking');
+var contenidoRanking = document.getElementById('contenidoRanking');
+var btnFecha = document.getElementById('ordenarPorFecha');
+var btnTiempo = document.getElementById('ordenarPorTiempo');
 
 botonIniciar.addEventListener('click', iniciarJuego);
 
@@ -32,10 +35,10 @@ function iniciarJuego() {
 
 	// Validación de nombre (mínimo 3 letras)
 	if (!/^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]{3,}$/.test(nombre)) {
-		alert('Por favor, ingresá un nombre válido (mínimo 3 letras).');
+		alert('Por favor, ingresá un nombre de letras solamente (mínimo 3).');
 		return;
 	}
-	
+
 	tableroElemento.innerHTML = '';
 	tablero = [];
 	celdasRestantes = filas * columnas - totalMinas;
@@ -286,29 +289,44 @@ function guardarPartida() {
 }
 
 btnRanking.addEventListener('click', function () {
+	mostrarRanking('tiempo');
+	});
+
+btnFecha.addEventListener('click', function () {
+	mostrarRanking('fecha');
+	});
+
+btnTiempo.addEventListener('click', function () {
+	mostrarRanking('tiempo');
+	});
+
+function mostrarRanking(criterio) {
 	var partidas = JSON.parse(localStorage.getItem('rankingBuscaminas')) || [];
 
-	if (partidas.length === 0) {
-		modalRanking.innerHTML = '<p>No hay partidas guardadas aún.</p>';
-		modalRanking.classList.add('modal-visible');
-		return;
+	if (criterio === 'tiempo') {
+		partidas.sort((a, b) => convertirTiempo(a.tiempo) - convertirTiempo(b.tiempo));
+	} else if (criterio === 'fecha') {
+		partidas.sort((a, b) => b.timestamp - a.timestamp);
 	}
 
-	// Orden por tiempo (ascendente)
-	partidas.sort(function (a, b) {
-		return a.timestamp - b.timestamp;
+	var html = '<ul>';
+	partidas.forEach(p => {
+		html += `<li><strong>${p.nombre}</strong> – ${p.tiempo} (${p.fecha})</li>`;
 	});
+	html += '</ul>';
 
-	var html = '<h3>Ranking de Partidas</h3><ul>';
-	partidas.forEach(function (p) {
-		html += `<li><strong>${p.nombre}</strong> - ${p.tiempo} (${p.fecha})</li>`;
-	});
-	html += '</ul><button onclick="cerrarRanking()">Cerrar</button>';
-
-	modalRanking.innerHTML = html;
-	modalRanking.classList.add('modal-visible');
-});
+	contenidoRanking.innerHTML = html;
+	modalRanking.classList.remove('oculto');
+}
 
 function cerrarRanking() {
-	modalRanking.classList.remove('modal-visible');
+	modalRanking.classList.add('oculto');
 }
+
+function convertirTiempo(tiempoStr) {
+	var partes = tiempoStr.split(':');
+	var minutos = parseInt(partes[0]);
+	var segundos = parseInt(partes[1]);
+	return minutos * 60 + segundos;
+}
+

@@ -37,7 +37,17 @@
 		
 		<!-- Ranking -->
 		<button id="btnRanking">📊 Ver ranking</button>
-		<div id="modalRanking" class="modal-oculto"></div>
+			<div id="modalRanking" class="modal oculto">
+				<div class="contenido-modal">
+					<h3>Ranking de Partidas</h3>
+					<div id="contenidoRanking"></div>
+					<div class="opciones-ranking">
+						<button id="ordenarPorFecha">📅 Ordenar por fecha</button>
+						<button id="ordenarPorTiempo">⏱️ Ordenar por tiempo</button>
+						<button onclick="cerrarRanking()">❌ Cerrar</button>
+					</div>
+				</div>
+			</div>
 
 	</main>
 

@@ -32,19 +32,21 @@
 			<!-- Se genera dinámicamente con JavaScript -->
 		</section>
 		
-		<!-- Modo oscuro -->
-		<button id="btnTema">Modo oscuro</button>
-		
-		<!-- Ranking -->
-		<button id="btnRanking">📊 Ver ranking</button>
+		<div class="acciones-juego">
 
-		<!-- Dificultad -->
-		<select id="selectorDificultad">
-			<option value="facil">Fácil (8x8, 10 minas)</option>
-			<option value="medio">Medio (12x12, 25 minas)</option>
-			<option value="dificil">Difícil (16x16, 40 minas)</option>
-		</select>
-		
+			<!-- Modo oscuro -->
+			<button id="btnTema">Modo oscuro</button>
+			
+			<!-- Ranking -->
+			<button id="btnRanking">📊 Ver ranking</button>
+
+			<!-- Dificultad -->
+			<select id="selectorDificultad">
+				<option value="facil">Fácil (8x8, 10 minas)</option>
+				<option value="medio">Medio (12x12, 25 minas)</option>
+				<option value="dificil">Difícil (16x16, 40 minas)</option>
+			</select>
+		</div>
 	</main>
 
 	<!-- Modal del ranking -->
@@ -67,7 +69,7 @@
 			<button onclick="cerrarModalEstado()">Aceptar</button>
 		</div>
 	</div>
-	
+
 	<script src="js/ranking.js"></script>
 	<script src="js/modal.js"></script>
 	<script src="js/dificultad.js"></script>

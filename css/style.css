@@ -29,6 +29,10 @@ body {
 	color: #222222;
 }
 
+body.modo-oscuro .titulo-principal {
+	color: #B9B7B7;
+}
+
 /* Sección del nombre del jugador */
 .seccion-jugador {
 	margin-bottom: 20px;
@@ -77,6 +81,15 @@ body {
 	border: none;
 	cursor: pointer;
 	font-size: 1.5rem;
+}
+
+.acciones-juego {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin: 15px 0;
 }
 
 /* Selector dificultad */

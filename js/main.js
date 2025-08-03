@@ -10,12 +10,29 @@ var botonIniciar = document.getElementById('btnIniciar');
 var tablero = [];
 var celdasRestantes = filas * columnas - totalMinas;
 
+var cronometro;
+var tiempoInicio;
+var temporizadorElemento = document.getElementById('temporizador');
+var reiniciarBtn = document.getElementById('btnReiniciar');
+var primerClick = true;
+
+var btnTema = document.getElementById('btnTema');
+
+var contadorMinasElemento = document.getElementById('minasRestantes');
+var banderasColocadas = 0;
+
 botonIniciar.addEventListener('click', iniciarJuego);
 
 function iniciarJuego() {
 	tableroElemento.innerHTML = '';
 	tablero = [];
 	celdasRestantes = filas * columnas - totalMinas;
+	temporizadorElemento.textContent = '00:00';
+	detenerCronometro();
+	primerClick = true;
+
+	banderasColocadas = 0;
+	contadorMinasElemento.textContent = 'Minas: ' + totalMinas;
 
 	tableroElemento.style.gridTemplateColumns = 'repeat(' + columnas + ', 1fr)';
 
@@ -104,13 +121,27 @@ function manejarClickDerecho(e) {
 	if (celda.revelada) return;
 
 	celda.bandera = !celda.bandera;
-	celda.elemento.textContent = celda.bandera ? '🚩' : '';
+
+	if (celda.bandera) {
+		banderasColocadas++;
+		celda.elemento.textContent = '🚩';
+	} else {
+		banderasColocadas--;
+		celda.elemento.textContent = '';
+	}
+
+	// Mostrar minas restantes (puede quedar negativo)
+	var minasRestantes = totalMinas - banderasColocadas;
+	contadorMinasElemento.textContent = 'Minas: ' + minasRestantes;
 }
+
 
 function revelarCelda(f, c) {
 	var celda = tablero[f][c];
 
 	if (celda.revelada || celda.bandera) return;
+
+	iniciarCronometro();
 
 	celda.revelada = true;
 	celda.elemento.classList.add('revelada');
@@ -132,29 +163,6 @@ function revelarCelda(f, c) {
 		finalizarJuego(true);
 	}
 }
-
-function expansionRecursiva(f, c) {
-	for (var df = -1; df <= 1; df++) {
-		for (var dc = -1; dc <= 1; dc++) {
-			var nf = f + df;
-			var nc = c + dc;
-
-			if (
-				nf >= 0 &&
-				nf < filas &&
-				nc >= 0 &&
-				nc < columnas &&
-				!(df === 0 && dc === 0)
-			) {
-				var celda = tablero[nf][nc];
-				if (!celda.revelada && !celda.mina && !celda.bandera) {
-					revelarCelda(nf, nc);
-				}
-			}
-		}
-	}
-}
-
 function finalizarJuego(gano) {
 	for (var f = 0; f < filas; f++) {
 		for (var c = 0; c < columnas; c++) {
@@ -174,3 +182,39 @@ function finalizarJuego(gano) {
 		alert('Perdiste. Hiciste clic en una mina.');
 	}
 }
+
+reiniciarBtn.addEventListener('click', iniciarJuego);
+
+function iniciarCronometro() {
+	if (!primerClick) return;
+	primerClick = false;
+
+	tiempoInicio = Date.now();
+	cronometro = setInterval(function () {
+		var tiempoActual = Date.now();
+		var segundos = Math.floor((tiempoActual - tiempoInicio) / 1000);
+		var minutos = Math.floor(segundos / 60);
+		segundos = segundos % 60;
+
+		temporizadorElemento.textContent =
+			(minutos < 10 ? '0' : '') +
+			minutos +
+			':' +
+			(segundos < 10 ? '0' : '') +
+			segundos;
+	}, 1000);
+}
+
+function detenerCronometro() {
+	clearInterval(cronometro);
+}
+
+btnTema.addEventListener('click', function () {
+	document.body.classList.toggle('modo-oscuro');
+
+	if (document.body.classList.contains('modo-oscuro')) {
+		btnTema.textContent = '☀️ Modo claro';
+	} else {
+		btnTema.textContent = '🌙 Modo oscuro';
+	}
+});

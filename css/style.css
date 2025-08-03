@@ -97,3 +97,25 @@ body {
 	border: 1px solid #bbbbbb;
 }
 
+/* Estilo modo oscuro */
+body.modo-oscuro {
+	background-color: #1e1e1e;
+	color: #eeeeee;
+}
+
+body.modo-oscuro .celda {
+	background-color: #444444;
+	border: 1px solid #888888;
+}
+
+body.modo-oscuro .revelada {
+	background-color: #666666;
+	border: 1px solid #aaaaaa;
+}
+
+#btnTema {
+	margin-top: 10px;
+	cursor: pointer;
+	font-size: 1rem;
+	padding: 5px 10px;
+}

@@ -98,6 +98,7 @@ body {
 .tablero-juego {
 	display: grid;
 	margin-top: 20px;
+	gap: 0;
 }
 
 /* Estilo inicial para cada celda del tablero */

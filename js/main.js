@@ -38,6 +38,7 @@ function iniciarJuego() {
 	}
 
 	tableroElemento.innerHTML = '';
+	tableroElemento.style.width = (columnas * 40) + "px";
 	tablero = [];
 	celdasRestantes = filas * columnas - totalMinas;
 	temporizadorElemento.textContent = '00:00';

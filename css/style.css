@@ -97,8 +97,9 @@ body {
 /* Tablero */
 .tablero-juego {
 	display: grid;
-	margin-top: 20px;
+	margin: 20px auto 0 auto;
 	gap: 0;
+
 }
 
 /* Estilo inicial para cada celda del tablero */

@@ -4,7 +4,7 @@ Versión web interactiva del clásico juego de Buscaminas, desarrollado con HTML
 
 FUNCIONALIDAD GENERAL 
 
-El juego genera automáticamente un tablero con minas distribuidas aleatoriamente y números que indican la cantidad de minas adyacentes. Permite al usuario interactuar con las celdas haciendo clic para descubrirlas. Las celdas con valor 0 se expanden automáticamente, revelando las celdas adyacentes sin minas. El jugador gana al descubrir todas las celdas sin minas. Si selecciona una celda con mina, pierde la partida.
+El juego genera automáticamente un tablero con minas distribuidas aleatoriamente y números que indican la cantidad de minas adyacentes. Permite al usuario interactuar con las celdas haciendo click para descubrirlas. Las celdas con valor 0 se expanden automáticamente, revelando las celdas adyacentes sin minas. El jugador gana al descubrir todas las celdas sin minas. Si selecciona una celda con mina, pierde la partida.
 
 FUNCIONALIDADES SECUNDARIAS
 
@@ -15,8 +15,8 @@ FUNCIONALIDADES SECUNDARIAS
 NIVELES DE DIFICULTAD 
 
 - Fácil: 8x8 con 10 minas
-- Media: 16x16 con 40 minas
-- Difícil: 30x16 con 99 minas
+- Media: 12x12 con 25 minas
+- Difícil: 16x16 con 40 minas
 
 Cada dificultad ajusta automáticamente el tamaño del tablero y la cantidad de minas.
 
